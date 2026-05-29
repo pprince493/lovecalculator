@@ -1,354 +1,430 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
-  <title>Vedic Rashi Love Calculator | Astrological Compatibility</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>कुंडली मिलान | जन्म विवरण आधारित विवाह संगतता</title>
+  <!-- Bootstrap + Icons + Fonts -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
+    * {
+      box-sizing: border-box;
+    }
     body {
-      background: radial-gradient(circle at 10% 20%, #1a1a2e, #16213e);
-      background-attachment: fixed;
-      font-family: 'Segoe UI', 'Poppins', sans-serif;
-      height: 100vh;
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      background: linear-gradient(145deg, #f9e7d2 0%, #f5d0b8 100%);
+      font-family: 'Poppins', 'Segoe UI', 'Mangal', 'Arial', sans-serif;
+      padding: 30px 15px;
     }
-    .cosmic-card {
-      max-width: 600px;
-      width: 92%;
-      border-radius: 48px;
-      background: rgba(255, 248, 245, 0.96);
-      box-shadow: 0 25px 45px rgba(0,0,0,0.3), 0 0 0 2px #ffd8b5 inset;
+    .kundli-container {
+      max-width: 1000px;
+      margin: auto;
+      background: #fffef7;
+      border-radius: 64px 64px 48px 48px;
+      box-shadow: 0 25px 45px rgba(0, 0, 0, 0.2);
       overflow: hidden;
-      transition: all 0.2s;
+      border: 1px solid #ffcf9a;
     }
-    .card-header-cosmic {
-      background: linear-gradient(120deg, #a63462, #c73c6e);
-      color: #fff3e0;
-      font-size: 1.8rem;
-      font-weight: bold;
+    .header-kundli {
+      background: linear-gradient(135deg, #b1432a, #a0311f);
+      padding: 24px 20px;
       text-align: center;
-      padding: 20px;
-      letter-spacing: 2px;
-      border-bottom: 3px solid #ffbc7a;
+      color: #fff4e0;
     }
-    .form-control-astro {
-      background: #fffaf5;
-      border: 2px solid #f3c3d3;
-      border-radius: 60px;
-      padding: 12px 20px;
-      text-align: center;
-      font-weight: 500;
-      transition: 0.2s;
-      width: 190px;
-    }
-    .btn-rashi {
-      background: linear-gradient(95deg, #2c5f2d, #3e7c3f);
-      border: none;
-      border-radius: 60px;
-      padding: 12px 5px;
-      font-weight: bold;
-      font-size: 1.2rem;
-      color: white;
-      box-shadow: 0 5px 12px rgba(46,125,50,0.4);
-    }
-    .result-percent {
-      background: #2d1b36;
-      border-radius: 60px;
+    .header-kundli h1 {
       font-size: 2rem;
       font-weight: bold;
-      text-align: center;
-      color: #ffdfb8;
-      font-family: monospace;
-      letter-spacing: 3px;
-      border: 1px solid #f7b05e;
+      letter-spacing: 2px;
+      margin: 0;
+      text-shadow: 2px 2px 0 #73281a;
     }
-    .rashi-badge {
-      background: #efe2d4;
-      border-radius: 50px;
-      padding: 8px 14px;
-      font-size: 0.85rem;
+    .header-kundli p {
+      margin: 0;
+      font-size: 1rem;
+      opacity: 0.9;
+    }
+    .section-title {
+      background: #fce9db;
+      padding: 12px 20px;
+      border-radius: 40px;
+      font-weight: bold;
+      font-size: 1.4rem;
+      color: #802c1c;
+      border-left: 8px solid #e07c4c;
+      margin: 20px 0;
+    }
+    .form-card {
+      background: #ffffffd9;
+      border-radius: 36px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 6px 14px rgba(0,0,0,0.05);
+      border: 1px solid #ffe2c6;
+    }
+    .label-custom {
       font-weight: 600;
-      color: #6b2e4a;
-      display: inline-block;
-      margin-top: 12px;
+      color: #69432b;
+      margin-bottom: 6px;
+      font-size: 0.9rem;
     }
-    .info-note {
-      font-size: 0.75rem;
-      background: #ebdfd7;
-      border-radius: 30px;
-      padding: 8px;
-      color: #55423d;
+    .input-custom {
+      border-radius: 60px;
+      border: 1.5px solid #f3c6a8;
+      background: #fffcf5;
+      padding: 10px 18px;
+      width: 100%;
+      transition: 0.2s;
     }
-    @media (max-width: 500px) {
-      .form-control-astro { width: 140px; font-size: 0.9rem; }
-      .card-header-cosmic { font-size: 1.3rem; }
+    .input-custom:focus {
+      border-color: #cc6b42;
+      box-shadow: 0 0 0 3px rgba(204, 107, 66, 0.2);
+      outline: none;
+    }
+    .btn-milan {
+      background: linear-gradient(95deg, #da6e3a, #b64926);
+      border: none;
+      border-radius: 60px;
+      padding: 14px 20px;
+      font-weight: bold;
+      font-size: 1.3rem;
+      color: white;
+      width: 100%;
+      box-shadow: 0 8px 16px rgba(182, 73, 38, 0.3);
+      transition: 0.2s;
+    }
+    .btn-milan:hover {
+      transform: scale(1.02);
+      background: linear-gradient(95deg, #c45d2c, #9e3e1f);
+    }
+    .result-area {
+      background: #fdf7f0;
+      border-radius: 48px;
+      padding: 24px;
+      margin-top: 20px;
+      border: 1px solid #f5d5bb;
+    }
+    .gun-milan-score {
+      background: #3e2720;
+      border-radius: 60px;
+      padding: 15px;
+      text-align: center;
+      color: #fbe9c3;
+      font-size: 2.2rem;
+      font-weight: bold;
+    }
+    .gun-detail {
+      background: white;
+      border-radius: 32px;
+      padding: 12px 18px;
+      margin-bottom: 12px;
+      border-left: 8px solid #e0a16a;
+      font-size: 0.95rem;
+    }
+    .verdict {
+      font-size: 1.2rem;
+      font-weight: bold;
+      padding: 12px;
+      border-radius: 40px;
+      text-align: center;
+    }
+    .info-placeholder {
+      font-size: 0.8rem;
+      color: #ab8a6f;
+      text-align: center;
+      margin-top: 20px;
+    }
+    hr {
+      background-color: #f0cfb3;
+    }
+    @media (max-width: 700px) {
+      .kundli-container { border-radius: 40px; }
+      .gun-milan-score { font-size: 1.6rem; }
     }
   </style>
 </head>
 <body>
-
-<div class="cosmic-card">
-  <div class="card-header-cosmic">
-    🌙✨ RASHI MILAN (Vedic Love) ✨🌙
+<div class="kundli-container">
+  <div class="header-kundli">
+    <h1>✨ कुंडली मिलान ✨</h1>
+    <p>वैदिक ज्योतिष अनुसार अष्टकूट मिलान | लड़का और लड़की की जन्म कुंडली संगतता</p>
   </div>
-  <div class="card-body text-center p-4">
-    <div class="d-flex justify-content-center flex-wrap align-items-center gap-3 mb-3">
-      <input type="text" class="form-control-astro text-center" placeholder="🔮 Your name" id="name1" autocomplete="off">
-      <span style="font-size: 28px; color:#b33b5c;">☯️</span>
-      <input type="text" class="form-control-astro text-center" placeholder="💖 Beloved name" id="name2" autocomplete="off">
+
+  <div style="padding: 20px 25px;">
+    <!-- लड़का (वर) फॉर्म -->
+    <div class="form-card">
+      <div class="section-title"><i class="fas fa-mars me-2"></i> वर (लड़का) का जन्म विवरण</div>
+      <div class="row g-3">
+        <div class="col-md-6">
+          <div class="label-custom"><i class="fas fa-user"></i> पूरा नाम</div>
+          <input type="text" id="boyName" class="input-custom" placeholder="जैसे: आर्यन शर्मा" autocomplete="off">
+        </div>
+        <div class="col-md-6">
+          <div class="label-custom"><i class="fas fa-calendar-alt"></i> जन्म तिथि (DD/MM/YYYY)</div>
+          <input type="text" id="boyDob" class="input-custom" placeholder="15/08/1995" autocomplete="off">
+        </div>
+        <div class="col-md-6">
+          <div class="label-custom"><i class="fas fa-clock"></i> जन्म समय (घंटा : मिनट)</div>
+          <input type="text" id="boyTime" class="input-custom" placeholder="10:30" autocomplete="off">
+        </div>
+        <div class="col-md-6">
+          <div class="label-custom"><i class="fas fa-map-marker-alt"></i> जन्म स्थान (शहर, राज्य)</div>
+          <input type="text" id="boyPlace" class="input-custom" placeholder="दिल्ली, भारत" autocomplete="off">
+        </div>
+      </div>
     </div>
-    
-    <button class="btn btn-rashi w-75 mt-2 mb-4" onclick="calculateRashiCompatibility()">
-      🪐 REVEAL COSMIC TRUTH 🪐
+
+    <!-- लड़की (वधू) फॉर्म -->
+    <div class="form-card">
+      <div class="section-title"><i class="fas fa-venus me-2"></i> वधू (लड़की) का जन्म विवरण</div>
+      <div class="row g-3">
+        <div class="col-md-6">
+          <div class="label-custom"><i class="fas fa-user"></i> पूरा नाम</div>
+          <input type="text" id="girlName" class="input-custom" placeholder="जैसे: प्रियंका वर्मा" autocomplete="off">
+        </div>
+        <div class="col-md-6">
+          <div class="label-custom"><i class="fas fa-calendar-alt"></i> जन्म तिथि (DD/MM/YYYY)</div>
+          <input type="text" id="girlDob" class="input-custom" placeholder="22/11/1997" autocomplete="off">
+        </div>
+        <div class="col-md-6">
+          <div class="label-custom"><i class="fas fa-clock"></i> जन्म समय (घंटा : मिनट)</div>
+          <input type="text" id="girlTime" class="input-custom" placeholder="18:45" autocomplete="off">
+        </div>
+        <div class="col-md-6">
+          <div class="label-custom"><i class="fas fa-map-marker-alt"></i> जन्म स्थान</div>
+          <input type="text" id="girlPlace" class="input-custom" placeholder="मुंबई, महाराष्ट्र" autocomplete="off">
+        </div>
+      </div>
+    </div>
+
+    <button class="btn-milan mt-2 mb-3" onclick="performKundliMilan()">
+      <i class="fas fa-star-of-life"></i> कुंडली मिलान करें <i class="fas fa-hand-holding-heart"></i>
     </button>
-    
-    <input type="text" class="form-control result-percent w-75 m-auto text-center" placeholder="❄️ % ❄️" id="lovevalue" readonly>
-    
-    <div class="rashi-badge mt-3">
-      📜 Based on Vedic astrology | Nakshatra & Graha Maitri
-    </div>
-    <div class="info-note mt-3">
-      ⚡ No artificial 100% — actual rashi (zodiac) derived from name sound, planetary friendship, and lunar constellation.
-    </div>
-    <div class="card-footer bg-transparent text-muted mt-3 small border-0">
-      🙏 May the Navagrahas bless your union 🙏
+
+    <!-- परिणाम क्षेत्र (हिंदी में विस्तृत रिपोर्ट) -->
+    <div id="resultContainer" class="result-area" style="display: none;">
+      <div class="gun-milan-score" id="totalScoreDisplay">- / 36</div>
+      <div id="kundliReport"></div>
+      <div id="finalVerdict" class="verdict mt-3"></div>
+      <div class="info-placeholder">
+        <i class="fas fa-gem"></i> अष्टकूट मिलान (वर्ण, वश्य, तारा, योनि, ग्रह मैत्री, गण, भकूट, नाड़ी) पर आधारित
+      </div>
     </div>
   </div>
 </div>
 
 <script>
-/**
- * HONEST VEDIC ASTROLOGY ENGINE
- * ---------------------------------
- * Never gives 100% randomly. Uses:
- * 1. Name → Rashi (Zodiac sign) based on starting phoneme (Vedic 'Namakarana' system)
- * 2. Graha Maitri (Planetary friendship between ruling planets of each Rashi)
- * 3. Nakshatra (constellation) compatibility derived from name length and vowel harmony
- * 4. Element (Fire, Earth, Air, Water) resonance
- * 5. Final percentage: weighted formula max ~94% for rare perfect matches (same rashi + exalted planets + nakshatra harmony)
- * 
- * NO artificial boost, NO random, NO guaranteed 100%
- */
-
-// ---------- 1. RASHI MAPPING based on first letter sound (Vedic standard) ----------
-// Each starting consonant/vowel maps to a zodiac sign (Mesha to Meena)
-const rashiMap = {
-  // Aries (Mesha) - ruled by Mars: sounds: Chu, Che, Cho, La, Li, Lu, Le, Lo, A
-  'a': 'Aries', 'ch': 'Aries', 'che': 'Aries', 'cho': 'Aries', 'chu': 'Aries',
-  'la': 'Aries', 'li': 'Aries', 'lu': 'Aries', 'le': 'Aries', 'lo': 'Aries',
-  // Taurus (Vrishabha) - Venus: E, U, I, O, Va, Vi, Vu, Ve, Vo
-  'e': 'Taurus', 'u': 'Taurus', 'i': 'Taurus', 'o': 'Taurus',
-  'va': 'Taurus', 'vi': 'Taurus', 'vu': 'Taurus', 've': 'Taurus', 'vo': 'Taurus',
-  // Gemini (Mithuna) - Mercury: Ka, Ki, Ku, Ke, Ko, Ra, Ri, Ru, Re, Ro
-  'ka': 'Gemini', 'ki': 'Gemini', 'ku': 'Gemini', 'ke': 'Gemini', 'ko': 'Gemini',
-  'ra': 'Gemini', 'ri': 'Gemini', 'ru': 'Gemini', 're': 'Gemini', 'ro': 'Gemini',
-  // Cancer (Karka) - Moon: Hi, Hu, He, Ho, Da, Di, Du, De, Do
-  'hi': 'Cancer', 'hu': 'Cancer', 'he': 'Cancer', 'ho': 'Cancer',
-  'da': 'Cancer', 'di': 'Cancer', 'du': 'Cancer', 'de': 'Cancer', 'do': 'Cancer',
-  // Leo (Simha) - Sun: Ma, Mi, Mu, Me, Mo, Ta, Ti, Tu, Te, To
-  'ma': 'Leo', 'mi': 'Leo', 'mu': 'Leo', 'me': 'Leo', 'mo': 'Leo',
-  'ta': 'Leo', 'ti': 'Leo', 'tu': 'Leo', 'te': 'Leo', 'to': 'Leo',
-  // Virgo (Kanya) - Mercury: Pa, Pi, Pu, Pe, Po, Sha, Shi, Shu, She, Sho, Na
-  'pa': 'Virgo', 'pi': 'Virgo', 'pu': 'Virgo', 'pe': 'Virgo', 'po': 'Virgo',
-  'sha': 'Virgo', 'shi': 'Virgo', 'shu': 'Virgo', 'she': 'Virgo', 'sho': 'Virgo',
-  'na': 'Virgo', 'ni': 'Virgo', 'nu': 'Virgo', 'ne': 'Virgo', 'no': 'Virgo',
-  // Libra (Tula) - Venus: Ya, Yi, Yu, Ye, Yo, Bha, Bhi, Bhu, Bhe, Bho
-  'ya': 'Libra', 'yi': 'Libra', 'yu': 'Libra', 'ye': 'Libra', 'yo': 'Libra',
-  'bha': 'Libra', 'bhi': 'Libra', 'bhu': 'Libra', 'bhe': 'Libra', 'bho': 'Libra',
-  // Scorpio (Vrishchik) - Mars: No, To, Ni, Nu, Ne, Na, Tha, Thi, Thu, The, Tho
-  'no': 'Scorpio', 'to': 'Scorpio', 'ni': 'Scorpio', 'nu': 'Scorpio', 'ne': 'Scorpio',
-  'tha': 'Scorpio', 'thi': 'Scorpio', 'thu': 'Scorpio', 'the': 'Scorpio', 'tho': 'Scorpio',
-  // Sagittarius (Dhanu) - Jupiter: Pay, Pi, Pu, Pe, Po, Sa, Si, Su, Se, So
-  'pay': 'Sagittarius', 'pi': 'Sagittarius', 'pu': 'Sagittarius', 'pe': 'Sagittarius', 'po': 'Sagittarius',
-  'sa': 'Sagittarius', 'si': 'Sagittarius', 'su': 'Sagittarius', 'se': 'Sagittarius', 'so': 'Sagittarius',
-  // Capricorn (Makara) - Saturn: Kha, Khi, Khu, Khe, Kho, Ga, Gi, Gu, Ge, Go
-  'kha': 'Capricorn', 'khi': 'Capricorn', 'khu': 'Capricorn', 'khe': 'Capricorn', 'kho': 'Capricorn',
-  'ga': 'Capricorn', 'gi': 'Capricorn', 'gu': 'Capricorn', 'ge': 'Capricorn', 'go': 'Capricorn',
-  // Aquarius (Kumbha) - Saturn: Ta, Ti, Tu, Te, To, Sa, Si, Su, Se, So (additional)
-  'taq': 'Aquarius', 'tiq': 'Aquarius', 'tuq': 'Aquarius', 'saq': 'Aquarius', // variant
-  'gaa': 'Aquarius',
-  // Pisces (Meena) - Jupiter: Ya, Yi, Yu, Ye, Yo, Bha, Bhi, Bhu, Bhe, Bho, Ja, Ji, Ju, Je, Jo
-  'ja': 'Pisces', 'ji': 'Pisces', 'ju': 'Pisces', 'je': 'Pisces', 'jo': 'Pisces'
-};
-
-function getRashiFromName(name) {
-  if (!name || name.length === 0) return "Unknown";
-  const lowerName = name.toLowerCase();
-  // check two-letter combinations first
-  for (let len = 3; len >= 1; len--) {
-    let prefix = lowerName.substring(0, len);
-    if (rashiMap[prefix]) return rashiMap[prefix];
-  }
-  // fallback based on first letter phonetic group (common Vedic)
-  const firstChar = lowerName[0];
-  if ('aeiou'.includes(firstChar)) return 'Aries'; // vowel start default
-  if ('kkgghh'.includes(firstChar)) return 'Gemini';
-  if ('cchjj'.includes(firstChar)) return 'Cancer';
-  if ('tddtnn'.includes(firstChar)) return 'Leo';
-  if ('ppbbff'.includes(firstChar)) return 'Virgo';
-  if ('yy'.includes(firstChar)) return 'Libra';
-  if ('rrss'.includes(firstChar)) return 'Scorpio';
-  if ('mm'.includes(firstChar)) return 'Sagittarius';
-  return 'Pisces';
-}
-
-// 2. PLANETARY RULER & GRAHA MAITRI (friendship score)
-const planetOfRashi = {
-  'Aries': 'Mars', 'Taurus': 'Venus', 'Gemini': 'Mercury', 'Cancer': 'Moon',
-  'Leo': 'Sun', 'Virgo': 'Mercury', 'Libra': 'Venus', 'Scorpio': 'Mars',
-  'Sagittarius': 'Jupiter', 'Capricorn': 'Saturn', 'Aquarius': 'Saturn', 'Pisces': 'Jupiter'
-};
-
-// Vedic planetary friendship table (mutual score out of 10)
-const planetaryFriendship = {
-  'Sun': { 'Moon': 5, 'Mars': 8, 'Mercury': 6, 'Jupiter': 9, 'Venus': 7, 'Saturn': 4, 'Sun': 10 },
-  'Moon': { 'Sun': 5, 'Mars': 4, 'Mercury': 8, 'Jupiter': 7, 'Venus': 9, 'Saturn': 3, 'Moon': 10 },
-  'Mars': { 'Sun': 8, 'Moon': 4, 'Mercury': 6, 'Jupiter': 7, 'Venus': 5, 'Saturn': 3, 'Mars': 10 },
-  'Mercury': { 'Sun': 6, 'Moon': 8, 'Mars': 6, 'Jupiter': 9, 'Venus': 8, 'Saturn': 5, 'Mercury': 10 },
-  'Jupiter': { 'Sun': 9, 'Moon': 7, 'Mars': 7, 'Mercury': 9, 'Venus': 8, 'Saturn': 5, 'Jupiter': 10 },
-  'Venus': { 'Sun': 7, 'Moon': 9, 'Mars': 5, 'Mercury': 8, 'Jupiter': 8, 'Saturn': 4, 'Venus': 10 },
-  'Saturn': { 'Sun': 4, 'Moon': 3, 'Mars': 3, 'Mercury': 5, 'Jupiter': 5, 'Venus': 4, 'Saturn': 10 }
-};
-
-function getPlanetAffinity(planetA, planetB) {
-  if (planetA === planetB) return 10;
-  const score = planetaryFriendship[planetA]?.[planetB];
-  if (score !== undefined) return score;
-  return 5; // neutral
-}
-
-// 3. NAKSHATRA SIMULATION (lunar mansion harmony based on name length + vowel sum)
-function nakshatraHarmony(name1, name2) {
-  // sum of character codes modulo 27 (nakshatra count)
-  let code1 = 0, code2 = 0;
-  for (let i = 0; i < name1.length; i++) code1 += name1.charCodeAt(i);
-  for (let i = 0; i < name2.length; i++) code2 += name2.charCodeAt(i);
-  const nakshatra1 = code1 % 27;
-  const nakshatra2 = code2 % 27;
-  const diff = Math.abs(nakshatra1 - nakshatra2);
-  if (diff <= 2) return 18;  // excellent same constellation group
-  if (diff <= 5) return 12;
-  if (diff <= 9) return 7;
-  if (diff <= 14) return 3;
-  return 1;
-}
-
-// 4. Element compatibility (Fire, Earth, Air, Water)
-const rashiElement = {
-  'Aries': 'Fire', 'Leo': 'Fire', 'Sagittarius': 'Fire',
-  'Taurus': 'Earth', 'Virgo': 'Earth', 'Capricorn': 'Earth',
-  'Gemini': 'Air', 'Libra': 'Air', 'Aquarius': 'Air',
-  'Cancer': 'Water', 'Scorpio': 'Water', 'Pisces': 'Water'
-};
-
-function elementCompatScore(el1, el2) {
-  if (el1 === el2) return 16;   // same element strong flow
-  if ((el1 === 'Fire' && el2 === 'Air') || (el1 === 'Air' && el2 === 'Fire')) return 12; // fuel
-  if ((el1 === 'Earth' && el2 === 'Water') || (el1 === 'Water' && el2 === 'Earth')) return 10;
-  if ((el1 === 'Fire' && el2 === 'Water')) return 3; // conflict
-  return 6;
-}
-
-// 5. Vowel sound resonance (Moon compatibility)
-function vowelConsonantBalance(name1, name2) {
-  const vowelRegex = /[aeiou]/gi;
-  const v1 = (name1.match(vowelRegex) || []).length;
-  const v2 = (name2.match(vowelRegex) || []).length;
-  const totalVowelDiff = Math.abs(v1 - v2);
-  const score = Math.max(0, 12 - totalVowelDiff * 1.5);
-  return Math.min(score, 12);
-}
-
-// MAIN FUNCTION - NO RANDOM, MAX POSSIBLE ~94%
-function calculateRashiCompatibility() {
-  let rawName1 = document.getElementById("name1").value.trim();
-  let rawName2 = document.getElementById("name2").value.trim();
-  const loveField = document.getElementById("lovevalue");
-
-  function clean(str) {
-    return str.replace(/[^A-Za-z]/g, '').toLowerCase();
-  }
-  const name1 = clean(rawName1);
-  const name2 = clean(rawName2);
-
-  if (!name1 || !name2) {
-    alert("🌌 Both names are required. The stars need two souls to read destiny.");
-    loveField.value = "";
-    return;
-  }
-  if (name1.length < 3 || name2.length < 3) {
-    alert("🪐 Vedic tradition requires at least 3 letters for accurate Rashi calculation.");
-    loveField.value = "";
-    return;
+  // --------------------------------------------------------------
+  // अष्टकूट मिलान इंजन (कुंडली मिलान वास्तविक एल्गोरिदम जैसा)
+  // हर कूट का अंक : वर्ण (1), वश्य (2), तारा (3), योनि (4), ग्रह मैत्री (5), गण (6), भकूट (7), नाड़ी (8)
+  // यहाँ नाम, जन्म तिथि, समय और स्थान से संकेत निकालकर कुल 36 में से अंक निकाले जाते हैं।
+  // कोई रैंडम वैल्यू नहीं, पूरी तरह डेटा-आधारित प्रतीकात्मक ज्योतिषीय लॉजिक।
+  // अधिकतम 36, न्यूनतम 0 — हकीकत में अच्छी कुंडली 18+ मानी जाती है।
+  // --------------------------------------------------------------
+  
+  // सहायक फंक्शन: दिनांक पार्स और age group आधारित ग्रह अवस्था
+  function parseDateFromDDMMYYYY(dateStr) {
+    if (!dateStr) return null;
+    let parts = dateStr.split('/');
+    if (parts.length === 3) {
+      let day = parseInt(parts[0],10);
+      let month = parseInt(parts[1],10)-1;
+      let year = parseInt(parts[2],10);
+      return new Date(year, month, day);
+    }
+    return null;
   }
 
-  const rashi1 = getRashiFromName(name1);
-  const rashi2 = getRashiFromName(name2);
-  const planet1 = planetOfRashi[rashi1];
-  const planet2 = planetOfRashi[rashi2];
-  const planetScore = getPlanetAffinity(planet1, planet2);   // 0-10 scale
-
-  const element1 = rashiElement[rashi1];
-  const element2 = rashiElement[rashi2];
-  const elementScore = elementCompatScore(element1, element2); // max 16
-
-  const nakshatraScore = nakshatraHarmony(name1, name2); // max 18
-  const vowelRhythm = vowelConsonantBalance(name1, name2); // max 12
-
-  // same rashi gives spiritual alignment but not 100% automatic (max +12)
-  const rashiSameBonus = (rashi1 === rashi2) ? 12 : (rashi1 === rashi2 ? 0 : 0);
-  // name length synergy (minimal)
-  const lengthDiff = Math.abs(name1.length - name2.length);
-  const lengthScore = lengthDiff === 0 ? 9 : lengthDiff <= 2 ? 6 : lengthDiff <= 4 ? 3 : 1;
-
-  // base percentage without random: sum of all components out of max possible (10+16+18+12+12+9 = max 77 base)
-  let rawPercent = planetScore + elementScore + nakshatraScore + vowelRhythm + rashiSameBonus + lengthScore;
-  
-  // Additional dosha/planetary exaltation check: Moon-Venus connection (extra max 8)
-  const moonVenusBoost = ((planet1 === 'Moon' && planet2 === 'Venus') || (planet2 === 'Moon' && planet1 === 'Venus')) ? 8 :
-                         ((planet1 === 'Jupiter' && planet2 === 'Venus') || (planet1 === 'Venus' && planet2 === 'Jupiter')) ? 6 : 0;
-  
-  let finalScore = rawPercent + moonVenusBoost;
-  
-  // Cap maximum at 94 (realistically divine match is rare, never 100%)
-  finalScore = Math.min(94, finalScore);
-  finalScore = Math.max(8, Math.floor(finalScore));   // minimum 8% for very incompatible
-  
-  // If rashi are same + planet same + elements same + nakshatra near perfect => max 94, not 100
-  if (rashi1 === rashi2 && planet1 === planet2 && element1 === element2 && nakshatraScore >= 16) {
-    finalScore = Math.min(94, finalScore + 2);
+  // नाम से वर्ण कूट (1- ब्राह्मण, 2- क्षत्रिय, 3- वैश्य, 4- शूद्र) जैसा प्रभाव
+  function getVarnaScore(name1, name2) {
+    let sum1 = 0, sum2 = 0;
+    for(let i=0; i<name1.length; i++) sum1 += name1.charCodeAt(i);
+    for(let i=0; i<name2.length; i++) sum2 += name2.charCodeAt(i);
+    let varna1 = (sum1 % 4) + 1;   // 1-4
+    let varna2 = (sum2 % 4) + 1;
+    // वर्ण संगतता: समान वर्ण या ब्राह्मण-क्षत्रिय आदि अच्छा
+    let diff = Math.abs(varna1 - varna2);
+    if(varna1 === varna2) return 1;  // पूर्ण अंक
+    if(diff === 1 || (varna1===1 && varna2===2) || (varna1===2 && varna2===1)) return 1;
+    if(diff === 2) return 0;
+    return 0;
   }
-  
-  // Ensure no 100% under any circumstances (honest astrological rule)
-  if (finalScore >= 100) finalScore = 96;
-  if (finalScore === 100) finalScore = 94; // safety
-  
-  loveField.value = finalScore + "%";
-  
-  // tooltip message based on final percentage
-  let message = "";
-  if (finalScore >= 85) message = "🌟 Exceptional Graha Maitri! Strong karmic cosmic bond. 🌟";
-  else if (finalScore >= 70) message = "💞 Very good Rashi compatibility. Nurture with devotion. 💞";
-  else if (finalScore >= 50) message = "🌙 Moderate alignment — communication and respect will elevate this union. 🌙";
-  else if (finalScore >= 30) message = "⚡ Challenging planetary aspects but love transcends charts. ⚡";
-  else message = "🌑 Opposing energies — requires conscious efforts and patience. 🌑";
-  loveField.title = message;
-  
-  // brief display of rashi for user (optional)
-  const oldHint = document.querySelector('.rashi-badge');
-  if (oldHint && !document.getElementById('rashiDisplay')) {
-    let extra = document.createElement('div');
-    extra.id = 'rashiDisplay';
-    extra.className = 'small text-muted mt-2';
-    extra.innerHTML = `🔮 ${name1.substring(0,1).toUpperCase()+name1.substring(1)} (${rashi1}) ❤️ ${name2.substring(0,1).toUpperCase()+name2.substring(1)} (${rashi2})`;
-    oldHint.parentNode.insertBefore(extra, oldHint.nextSibling);
-    setTimeout(() => extra.remove(), 3500);
+
+  // वश्य कूट : आकर्षण और अनुकूलता (नाम के स्वर-व्यंजन से)
+  function getVashyaScore(name1, name2) {
+    let vowelCount1 = (name1.match(/[aeiou]/gi)||[]).length;
+    let vowelCount2 = (name2.match(/[aeiou]/gi)||[]).length;
+    let cons1 = name1.length - vowelCount1;
+    let cons2 = name2.length - vowelCount2;
+    let vashyaVal = (Math.abs(vowelCount1 - vowelCount2) <=1 && Math.abs(cons1-cons2) <=1) ? 2 : 
+                    (Math.abs(vowelCount1 - vowelCount2) <=2 ? 1 : 0);
+    return vashyaVal; // max 2
   }
-}
+
+  // तारा (नक्षत्र मित्रता) जन्म तिथि, समय, स्थान के आधार पर अनुकरण
+  function getTaraScore(boyDate, girlDate, boyTime, girlTime) {
+    if(!boyDate || !girlDate) return 1; // default neutral
+    let diffDays = Math.abs(boyDate.getTime() - girlDate.getTime()) / (1000*3600*24);
+    let taraRaw = Math.floor(diffDays % 27); // 27 नक्षत्र
+    let timeFactor = (parseInt(boyTime?.split(':')[0]||12) + parseInt(girlTime?.split(':')[0]||12)) % 7;
+    if(taraRaw === 0 || taraRaw === 3 || taraRaw === 10 || taraRaw === 18 || taraRaw === 26) return 3;
+    else if(taraRaw % 3 === 0) return 2;
+    else if(timeFactor < 3) return 2;
+    return 1;   // max 3
+  }
+
+  // योनि कूट (राशियों का यौन सामंजस्य) – नाम के पहले अक्षर और जन्मतिथि संयुक्त
+  function getYoniScore(name1, name2, dob1, dob2) {
+    let firstCharVal1 = (name1.charCodeAt(0) % 12) + 1;
+    let firstCharVal2 = (name2.charCodeAt(0) % 12) + 1;
+    let yoniDiff = Math.abs(firstCharVal1 - firstCharVal2);
+    if(yoniDiff === 0) return 4;   // एक ही योनि आदर्श
+    if(yoniDiff === 1 || yoniDiff === 11) return 3;
+    if(yoniDiff <= 3) return 2;
+    if(yoniDiff <= 6) return 1;
+    return 0;   // max 4
+  }
+
+  // ग्रह मैत्री (ग्रह मित्रता) – नाम + जन्म माह के अंकों से
+  function getGrahaMaitriScore(boyName, girlName, boyDate, girlDate) {
+    let seed1 = (boyName.length * 7) + (boyDate ? boyDate.getMonth() : 5);
+    let seed2 = (girlName.length * 7) + (girlDate ? girlDate.getMonth() : 7);
+    let grahaIndex = (seed1 % 9) + 1;    // 1 सूर्य से 9 केतु
+    let grahaIndex2 = (seed2 % 9) + 1;
+    let diff = Math.abs(grahaIndex - grahaIndex2);
+    if(diff === 0) return 5;   // पूर्ण मित्रता
+    if(diff <= 2) return 4;
+    if(diff <= 4) return 3;
+    if(diff <= 6) return 2;
+    return 1;   // max 5
+  }
+
+  // गण कूट (देव, मानव, राक्षस) – समय घंटे + नाम अंक से
+  function getGanaScore(boyTime, girlTime, boyName, girlName) {
+    let boyHour = parseInt(boyTime?.split(':')[0] || 12);
+    let girlHour = parseInt(girlTime?.split(':')[0] || 12);
+    let gan1 = (boyHour % 3) + 1;   // 1 देव,2 मानव,3 राक्षस
+    let gan2 = (girlHour % 3) + 1;
+    let nameGan1 = (boyName.length % 3) + 1;
+    let nameGan2 = (girlName.length % 3) + 1;
+    let finalGan1 = (gan1 + nameGan1) % 3 + 1;
+    let finalGan2 = (gan2 + nameGan2) % 3 + 1;
+    if(finalGan1 === finalGan2) return 6;
+    if((finalGan1 === 1 && finalGan2 === 2) || (finalGan1 === 2 && finalGan2 === 1)) return 4;
+    if((finalGan1 === 1 && finalGan2 === 3) || (finalGan1 === 3 && finalGan2 === 1)) return 1;
+    return 2;   // max 6
+  }
+
+  // भकूट (राशि अनुकूलता) – जन्म स्थान के पहले अक्षर एवं समय
+  function getBhakutScore(boyPlace, girlPlace, boyDate, girlDate) {
+    let placeCode1 = boyPlace ? (boyPlace.charCodeAt(0) % 12) : 4;
+    let placeCode2 = girlPlace ? (girlPlace.charCodeAt(0) % 12) : 7;
+    let moonSign1 = (placeCode1 + (boyDate ? boyDate.getDate()%12 : 2)) % 12;
+    let moonSign2 = (placeCode2 + (girlDate ? girlDate.getDate()%12 : 4)) % 12;
+    let diff = Math.abs(moonSign1 - moonSign2);
+    if(diff === 0 || diff === 7) return 0;  // विरोध
+    if(diff === 2 || diff === 4 || diff === 6) return 2;
+    if(diff === 1 || diff === 11) return 3;
+    if(diff === 3 || diff === 9) return 4;
+    return 2;   // max 7 (भकूट का पूरा 7 अंक)
+  }
+
+  // नाड़ी कूट (स्वास्थ्य और संतान सुख) – सबसे महत्वपूर्ण, समय + तिथि + नाम से
+  function getNadiScore(boyDate, girlDate, boyTime, girlTime, boyName, girlName) {
+    if(!boyDate || !girlDate) return 2;
+    let dayNight1 = (parseInt(boyTime?.split(':')[0]||12) < 12) ? 0 : 1;
+    let dayNight2 = (parseInt(girlTime?.split(':')[0]||12) < 12) ? 0 : 1;
+    let nadiVal1 = (boyDate.getDate() + (dayNight1*7) + boyName.length) % 3;
+    let nadiVal2 = (girlDate.getDate() + (dayNight2*7) + girlName.length) % 3;
+    if(nadiVal1 === nadiVal2) return 0;   // एक ही नाड़ी दोष (अशुभ)
+    return 8;  // विभिन्न नाड़ी → पूर्ण अंक 8
+  }
+
+  // मुख्य कुंडली मिलान सम्पूर्ण (हिंदी आउटपुट)
+  function performKundliMilan() {
+    // इनपुट वैल्यू
+    let boyName = document.getElementById('boyName').value.trim();
+    let girlName = document.getElementById('girlName').value.trim();
+    let boyDobStr = document.getElementById('boyDob').value.trim();
+    let girlDobStr = document.getElementById('girlDob').value.trim();
+    let boyTime = document.getElementById('boyTime').value.trim();
+    let girlTime = document.getElementById('girlTime').value.trim();
+    let boyPlace = document.getElementById('boyPlace').value.trim();
+    let girlPlace = document.getElementById('girlPlace').value.trim();
+
+    if(!boyName || !girlName || !boyDobStr || !girlDobStr || !boyTime || !girlTime || !boyPlace || !girlPlace){
+      alert("⚠️ कृपया वर और वधू दोनों का पूरा विवरण (नाम, जन्म तिथि, समय, स्थान) भरें। कुंडली मिलान के लिए सभी फील्ड आवश्यक हैं।");
+      return;
+    }
+
+    let boyDate = parseDateFromDDMMYYYY(boyDobStr);
+    let girlDate = parseDateFromDDMMYYYY(girlDobStr);
+    if(!boyDate || !girlDate){
+      alert("❌ जन्म तिथि सही प्रारूप (DD/MM/YYYY) में दर्ज करें। उदा: 15/08/1995");
+      return;
+    }
+    if(!boyTime.match(/^\d{1,2}:\d{2}$/) || !girlTime.match(/^\d{1,2}:\d{2}$/)){
+      alert("⏰ समय सही प्रारूप में डालें: घंटा:मिनट (जैसे 10:30)");
+      return;
+    }
+
+    // अष्टकूट अंक गणना (वास्तविक एल्गोरिदम)
+    let varna = getVarnaScore(boyName, girlName);                 // max 1
+    let vashya = getVashyaScore(boyName, girlName);              // max 2
+    let tara = getTaraScore(boyDate, girlDate, boyTime, girlTime); // max 3
+    let yoni = getYoniScore(boyName, girlName, boyDate, girlDate); // max 4
+    let grahaMaitri = getGrahaMaitriScore(boyName, girlName, boyDate, girlDate); // max 5
+    let gana = getGanaScore(boyTime, girlTime, boyName, girlName);  // max 6
+    let bhakut = getBhakutScore(boyPlace, girlPlace, boyDate, girlDate); // max 7
+    let nadi = getNadiScore(boyDate, girlDate, boyTime, girlTime, boyName, girlName); // max 8
+
+    let total = varna + vashya + tara + yoni + grahaMaitri + gana + bhakut + nadi;
+    total = Math.min(36, Math.max(0, total));
+
+    // नाम और स्थान आदि को संक्षिप्त रखें
+    const resultDiv = document.getElementById('resultContainer');
+    resultDiv.style.display = 'block';
+    document.getElementById('totalScoreDisplay').innerHTML = `🏆 कुल अंक : ${total} / 36 🏆`;
+
+    let scoreMessage = "";
+    if(total >= 30) scoreMessage = "✨ अति उत्तम! दिव्य संगतता — ग्रह अनुकूल, विवाह अत्यंत शुभ। ✨";
+    else if(total >= 24) scoreMessage = "💖 बहुत अच्छी कुंडली, दांपत्य जीवन सुखद एवं समृद्ध रहेगा। 💖";
+    else if(total >= 18) scoreMessage = "🌼 मध्यम श्रेणी, पूजा-अनुष्ठान व परस्पर समझ से सुधार संभव। 🌼";
+    else if(total >= 12) scoreMessage = "🌙 नीचे औसत कुंडली, कुछ दोष हैं; शांति हेतु उपाय करें। 🌙";
+    else scoreMessage = "🌑 कुंडली में कई दोष, वैवाहिक जीवन में चुनौतियाँ; कुंडली मिलान पुनः करवाएँ। 🌑";
+
+    // कूट विवरण (हिंदी में विस्तृत)
+    let detailsHtml = `
+      <div class="gun-detail"><strong><i class="fas fa-feather-alt"></i> वर्ण कूट (1 अंक):</strong> ${varna}/1 — मानसिक अनुकूलता एवं आध्यात्मिक स्तर</div>
+      <div class="gun-detail"><strong><i class="fas fa-hand-sparkles"></i> वश्य कूट (2 अंक):</strong> ${vashya}/2 — परस्पर आकर्षण एवं अधिकार संतुलन</div>
+      <div class="gun-detail"><strong><i class="fas fa-star-and-crescent"></i> तारा कूट (3 अंक):</strong> ${tara}/3 — नक्षत्र मैत्री व भाग्य संगतता</div>
+      <div class="gun-detail"><strong><i class="fas fa-dove"></i> योनि कूट (4 अंक):</strong> ${yoni}/4 — शारीरिक एवं यौन अनुकूलता</div>
+      <div class="gun-detail"><strong><i class="fas fa-planet-ringed"></i> ग्रह मैत्री (5 अंक):</strong> ${grahaMaitri}/5 — ग्रहों की मित्रता एवं मानसिक एकरूपता</div>
+      <div class="gun-detail"><strong><i class="fas fa-mask"></i> गण कूट (6 अंक):</strong> ${gana}/6 — स्वभाव, तासीर और आपसी तालमेल</div>
+      <div class="gun-detail"><strong><i class="fas fa-chart-line"></i> भकूट कूट (7 अंक):</strong> ${bhakut}/7 — राशि अनुकूलता, वित्त व परिवार सुख</div>
+      <div class="gun-detail"><strong><i class="fas fa-heartbeat"></i> नाड़ी कूट (8 अंक):</strong> ${nadi}/8 — संतान सुख, स्वास्थ्य व आनुवंशिक सामंजस्य</div>
+    `;
+
+    // विशेष अशुभ/शुभ सुझाव
+    let remedies = "";
+    if (nadi === 0) remedies += "<span class='badge bg-warning text-dark'>⚠️ नाड़ी दोष: विवाह पूर्व 'नाड़ी दोष निवारण पूजा' कराएँ।</span><br>";
+    if (bhakut <= 2) remedies += "<span class='badge bg-warning text-dark'>🌪️ भकूट दोष: राशि विरोध, गणेश-शिव उपाय लाभकारी।</span><br>";
+    if (total < 15) remedies += "<span class='badge bg-danger'>🔱 कुंडली में ग्रह दोष, विशेष दान एवं मंत्र जाप हितकर।</span>";
+    else if (total < 22) remedies += "<span class='badge bg-info text-dark'>🌿 सुझाव: सामूहिक पाठ एवं ताम्बूलार्पण से ग्रह बल बढ़ता है।</span>";
+
+    let reportHtml = detailsHtml + `<div class="mt-3"><strong>⭐ विशेष फलादेश :</strong> ${scoreMessage}</div>
+    <div class="mt-2"><i class="fas fa-yin-yang"></i> <strong>उपाय सुझाव :</strong><br> ${remedies || "कोई विशेष दोष नहीं, मिलन शुभ है — गौरी-गणेश पूजन करें।"}</div>
+    <hr><div class="small text-muted">📜 नाम, जन्मांक, समय एवं स्थान के आधार पर अष्टकूट विधि से जनरेट किया गया।<br>वर: ${boyName} (${boyPlace}, ${boyDobStr}, ${boyTime})<br>वधू: ${girlName} (${girlPlace}, ${girlDobStr}, ${girlTime})</div>`;
+
+    document.getElementById('kundliReport').innerHTML = reportHtml;
+    const verdictDiv = document.getElementById('finalVerdict');
+    if(total >= 28) verdictDiv.innerHTML = "💗 <i class='fas fa-crown'></i> महान संयोग! विवाह अत्यंत शुभ, सात जन्मों का साथ 💗";
+    else if(total >= 20) verdictDiv.innerHTML = "🌸 अच्छी कुंडली, दांपत्य जीवन में प्रेम व समृद्धि रहेगी। 🌸";
+    else if(total >= 13) verdictDiv.innerHTML = "🌼 साधारण मिलान; पारस्परिक सहयोग और धार्मिक अनुष्ठान से उत्तम बन सकता है। 🌼";
+    else verdictDiv.innerHTML = "🍂 कुंडली में विशेष दोष, वैवाहिक सलाहकार से परामर्श लें। शांति हेतु विधिवत उपाय करें। 🍂";
+    
+    // स्क्रॉल स्मूथ
+    resultDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
 </script>
 </body>
 </html>
