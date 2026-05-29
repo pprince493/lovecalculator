@@ -1,84 +1,471 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Love calculator</title>
+  <title>Astrological Love Calculator | Divine Compatibility</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+  <style>
+    body {
+      background: linear-gradient(135deg, #1a0b2e 0%, #2a1a3a 100%);
+      background-attachment: fixed;
+      background-repeat: no-repeat;
+      background-position: center;
+      position: relative;
+      background-size: cover;
+      height: 100vh;
+      width: 100%;
+      font-family: 'Segoe UI', 'Poppins', system-ui, -apple-system, sans-serif;
+    }
+    /* subtle starry overlay */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: radial-gradient(2px 2px at 20px 30px, #fff, rgba(0,0,0,0)),
+                        radial-gradient(1px 1px at 60px 90px, #ffd966, rgba(0,0,0,0));
+      background-size: 200px 200px, 150px 150px;
+      background-repeat: repeat;
+      opacity: 0.2;
+      pointer-events: none;
+    }
+    .card {
+      width: 100%;
+      max-width: 550px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border: none;
+      border-radius: 42px;
+      background: rgba(255, 245, 250, 0.96);
+      backdrop-filter: blur(1px);
+      box-shadow: 0 30px 45px -20px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,215,215,0.3);
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+    .card-header {
+      background: linear-gradient(98deg, #b82b4a, #d43f67);
+      color: white;
+      font-size: 1.8rem;
+      font-weight: bold;
+      letter-spacing: 2px;
+      text-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+      border-bottom: 2px solid #ffbfa6;
+      padding: 18px 0;
+    }
+    .card-footer {
+      background: #fef1e6;
+      font-weight: 600;
+      color: #6b2e4a;
+      font-size: 1rem;
+      border-top: 1px solid #ffcfb6;
+    }
+    .form-group {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .input-couple {
+      background: #fffcf9;
+      border: 2px solid #f5cdd4;
+      border-radius: 60px;
+      padding: 12px 18px;
+      font-size: 1rem;
+      text-align: center;
+      transition: 0.2s;
+      font-weight: 500;
+      color: #2e1a3a;
+      width: 180px;
+    }
+    .input-couple:focus {
+      border-color: #d44c6f;
+      box-shadow: 0 0 0 3px rgba(212, 76, 111, 0.2);
+      outline: none;
+    }
+    .plus-symbol {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: #b5476c;
+      padding: 0 8px;
+      text-shadow: 0 1px 0 #ffe0e7;
+    }
+    .btn-calculate {
+      background: linear-gradient(95deg, #27ae60, #2ecc71);
+      border: none;
+      border-radius: 60px;
+      padding: 10px 0;
+      font-weight: bold;
+      font-size: 1.2rem;
+      letter-spacing: 1px;
+      color: white;
+      box-shadow: 0 6px 14px rgba(46, 204, 113, 0.4);
+      transition: all 0.2s;
+    }
+    .btn-calculate:hover {
+      background: linear-gradient(95deg, #2ecc71, #27ae60);
+      transform: scale(1.02);
+      box-shadow: 0 8px 18px rgba(46, 204, 113, 0.5);
+    }
+    .love-result {
+      background: #fff0f5;
+      border: 2px solid #f7bfcf;
+      border-radius: 80px;
+      font-size: 1.7rem;
+      font-weight: bold;
+      text-align: center;
+      color: #9b2f4b;
+      cursor: default;
+      font-family: monospace;
+      letter-spacing: 2px;
+    }
+    .astrology-note {
+      font-size: 0.85rem;
+      background: #e8d9e6;
+      border-radius: 30px;
+      padding: 8px 15px;
+      display: inline-block;
+      margin-top: 12px;
+      color: #4b2a3b;
+    }
+    @media (max-width: 550px) {
+      .card { width: 92%; }
+      .input-couple { width: 140px; font-size: 0.85rem; }
+      .plus-symbol { font-size: 1.4rem; }
+      .btn-calculate { font-size: 1rem; }
+    }
+  </style>
 </head>
-<style>
-body{
-background-image:url("123.png");
-background-attachment:fixed;
-background-repeat:no-repeat;
-background-position:center;
-position:relative;
-background-size:cover;
-height:100vh;
-width:100%;
-}
-.card{
-width:100%;
-position:absolute;
-top:50%;
-left:50%;
-transform:translate(-50%,-50%);
-}
-</style>
 <body>
- 
 
-  <div class="card m-auto w-50 text-center">
-    <div class="card-header  bg-danger text-white">Love calculator</div>
-    <div class="card-body">
-	<form  class="w-75 m-auto form-inline">
-	<div class="form-group">
-	<input  type="text"class="form-control text-center "placeholder="Your name"id="name1">
-	<div class="form-group"><span class="pl-4 pr-4">+</span></div>
-		<input  type="text"class="form-control text-center"placeholder="Love name"id="name2">
-		
-	</div></form> <br>
-	<div class="w-50 m-auto">
-	<input type="button"class="btn  btn-success  text-center w-50"value="click" onclick="mylove()"></div><br>
-<input  type="text"class="form-control w-50 m-auto text-center"placeholder="percent"id="lovevalue"readonly><br>
-    <div class="card-footer text-center">God Bless Your Relationship</div>
+<div class="card m-auto text-center">
+  <div class="card-header bg-danger text-white">✨ ASTRO LOVE COMPASS ✨</div>
+  <div class="card-body">
+    <form class="w-75 m-auto" style="min-width: 240px;">
+      <div class="form-group d-flex justify-content-center flex-wrap">
+        <input type="text" class="form-control input-couple text-center" placeholder="🌟 Your name" id="name1" autocomplete="off">
+        <span class="plus-symbol">❤️</span>
+        <input type="text" class="form-control input-couple text-center" placeholder="🌙 Beloved name" id="name2" autocomplete="off">
+      </div>
+    </form> 
+    <br>
+    <div class="w-75 m-auto">
+      <input type="button" class="btn btn-calculate text-center w-100" value="🔮 REVEAL FATE 🔮" onclick="calculateLoveAstrology()">
+    </div>
+    <br>
+    <input type="text" class="form-control love-result w-75 m-auto text-center" placeholder="✨ % ✨" id="lovevalue" readonly>
+    <div class="astrology-note w-75 m-auto mt-3">
+      ⚡ based on name vibrations, planetary resonance & soul number synergy
+    </div>
+    <br>
+    <div class="card-footer text-center mt-2">💖 God Bless Your Sacred Union 💖</div>
   </div>
- 
+</div>
+
 <script>
-function mylove()
-{
-var name1=document.getElementById("name1").value;
-var name2=document.getElementById("name2").value;
-if(name1=="")
-{
-alert("All fields are  mandatory");
-}else if(name1.length<4)
-{
-alert("Minimum length is 4");
-}else if(!isNaN(name1))
-{
-alert("must contain alphabets");
-}if(name2=="")
-{
-alert("All fields are  mandatory");
-}else if(name2.length<4)
-{
-alert("Minimum length is 4");
-}else if(!isNaN(name2))
-{
-alert("must contain alphabets");
-}
-else{
-var love=Math.random() * 100;
-love=Math.floor(love);
-document.getElementById('lovevalue').value=love;
+/**
+ * ASTROLOGICAL LOVE PERCENTAGE ENGINE
+ * 
+ * This algorithm generates a genuine compatibility score based on:
+ *  - Soul number (sum of vowels, celestial resonance)
+ *  - Karmic number (sum of consonants, earth energy)
+ *  - Name length & parity synergy (yin-yang balance)
+ *  - Astrological alphabet mapping (each letter linked to planetary rulers)
+ *  - Hidden name value using Vedic numerological cypher (1-9)
+ *  - Cross-name harmonic resonance factor
+ * 
+ * No random Math.random() is used — every result is derived from actual name data.
+ * The result reflects an authentic "astrology-simulated" percentage from 0 to 100.
+ */
+function calculateLoveAstrology() {
+  // ----- DOM elements & validation -----
+  const name1Input = document.getElementById("name1").value.trim();
+  const name2Input = document.getElementById("name2").value.trim();
+  const loveField = document.getElementById("lovevalue");
+
+  // ---- helper: clean name (only letters, convert to lowercase for consistency) ----
+  function cleanName(rawName) {
+    // remove extra spaces, keep only alphabetic characters (extended for astro)
+    let cleaned = rawName.replace(/[^A-Za-z]/g, '');
+    return cleaned.toLowerCase();
+  }
+
+  const clean1 = cleanName(name1Input);
+  const clean2 = cleanName(name2Input);
+
+  // ----- validation with friendly astro messages -----
+  if (clean1 === "" || clean2 === "") {
+    alert("🌙 Oops! Both names are required — the stars need both souls to reveal destiny.");
+    loveField.value = "";
+    return;
+  }
+  if (clean1.length < 3) {
+    alert("🔮 Your name must have at least 3 letters to unveil accurate cosmic waves.");
+    loveField.value = "";
+    return;
+  }
+  if (clean2.length < 3) {
+    alert("💫 The beloved's name should contain at least 3 characters — cosmic alignment works best with meaningful names.");
+    loveField.value = "";
+    return;
+  }
+  // check that both contain actual letters (already handled by clean but additional message)
+  if (!/[a-z]/i.test(clean1) || !/[a-z]/i.test(clean2)) {
+    alert("☪️ Please use only alphabetic names. Celestial vibrations read letters, not numbers or symbols.");
+    loveField.value = "";
+    return;
+  }
+
+  // --------------------------------------------------------------
+  // 1. VEDIC NAME NUMBER (Chaldean / Pythagorean inspired)
+  //    Each letter a-z gets a value 1-9 based on pattern:
+  //    a=1, b=2, c=3, d=4, e=5, f=6, g=7, h=8, i=9, j=1, k=2, l=3, m=4,
+  //    n=5, o=6, p=7, q=8, r=9, s=1, t=2, u=3, v=4, w=5, x=6, y=7, z=8
+  function getLetterValue(ch) {
+    const code = ch.charCodeAt(0) - 96; // 'a' = 1
+    // reduction pattern: 1→1,2→2,...9→9, then 10→1,11→2 etc.
+    const reduced = ((code - 1) % 9) + 1;
+    return reduced;
+  }
+
+  function computeNameNumericalValue(name) {
+    let sum = 0;
+    for (let i = 0; i < name.length; i++) {
+      sum += getLetterValue(name[i]);
+    }
+    // reduce to single digit (master soul vibration except final percentage uses raw sum synergy)
+    while (sum > 9 && sum !== 11 && sum !== 22) {
+      let digits = sum.toString().split('');
+      sum = digits.reduce((acc, d) => acc + parseInt(d), 0);
+    }
+    return sum;
+  }
+
+  // 2. SOUL VOWEL RESONANCE (Astrology: Moon & Venus energy)
+  function getVowelsSum(name) {
+    const vowels = new Set(['a', 'e', 'i', 'o', 'u']);
+    let vowSum = 0;
+    for (let ch of name) {
+      if (vowels.has(ch)) vowSum += getLetterValue(ch);
+    }
+    return vowSum % 9 === 0 ? 9 : vowSum % 9;
+  }
+
+  // 3. CONSONANT (Karmic grounding) Mars/Saturn influence
+  function getConsonantSum(name) {
+    const vowels = new Set(['a', 'e', 'i', 'o', 'u']);
+    let consSum = 0;
+    for (let ch of name) {
+      if (!vowels.has(ch)) consSum += getLetterValue(ch);
+    }
+    return consSum % 9 === 0 ? 9 : consSum % 9;
+  }
+
+  // 4. Unique letter synergy index (astrological matching: shared vibrational patterns)
+  function letterSetOverlap(nameA, nameB) {
+    const setA = new Set(nameA.split(''));
+    const setB = new Set(nameB.split(''));
+    let common = 0;
+    for (let letter of setA) {
+      if (setB.has(letter)) common++;
+    }
+    const uniqueTotal = setA.size + setB.size - common;
+    if (uniqueTotal === 0) return 50; // fallback
+    const overlapPercent = (common / uniqueTotal) * 100;
+    return overlapPercent;
+  }
+
+  // 5. Length balance: sacred geometry of name lengths (moon phase compatibility)
+  function lengthHarmony(len1, len2) {
+    const diff = Math.abs(len1 - len2);
+    if (diff === 0) return 95;
+    if (diff === 1) return 85;
+    if (diff === 2) return 70;
+    if (diff === 3) return 55;
+    return 40 - Math.min(diff, 10);
+  }
+
+  // 6. ASTROLOGICAL ALPHABET RULERSCAPE (planetary affinity)
+  // each letter gets a planet weight: Sun, Moon, Mercury, Venus, Mars, Jupiter, Saturn etc
+  function planetaryAffinity(name1, name2) {
+    // mapping based on traditional astrology letter rulers (simplified but precise)
+    const planetScores = {
+      'a': 9,  // Sun
+      'b': 4,  // Moon
+      'c': 5,  // Mercury
+      'd': 6,  // Venus
+      'e': 8,  // Jupiter
+      'f': 3,  // Mars
+      'g': 7,  // Saturn
+      'h': 2,  // Rahu (north node)
+      'i': 9,  // Sun again
+      'j': 4,  // Moon
+      'k': 5,  // Mercury
+      'l': 6,  // Venus
+      'm': 8,  // Jupiter
+      'n': 3,  // Mars
+      'o': 7,  // Saturn
+      'p': 2,  // Ketu
+      'q': 9,  // Sun
+      'r': 4,  // Moon
+      's': 5,  // Mercury
+      't': 6,  // Venus
+      'u': 8,  // Jupiter
+      'v': 3,  // Mars
+      'w': 7,  // Saturn
+      'x': 2,  // mystical
+      'y': 9,  // Sun
+      'z': 4   // Moon
+    };
+    let score1 = 0, score2 = 0;
+    for (let ch of name1) score1 += planetScores[ch] || 5;
+    for (let ch of name2) score2 += planetScores[ch] || 5;
+    const avg1 = score1 / name1.length;
+    const avg2 = score2 / name2.length;
+    let affinity = 100 - (Math.abs(avg1 - avg2) * 12);
+    affinity = Math.min(100, Math.max(20, affinity));
+    return affinity;
+  }
+
+  // 7. Vedic name synergy: sum of name numbers + cross reduction
+  function vedicSynergy(numVal1, numVal2, vowel1, vowel2, cons1, cons2) {
+    // root number compatibility: if both share same root number => high boost
+    let compatibility = 0;
+    if (numVal1 === numVal2) compatibility += 28;
+    else if ((numVal1 + numVal2) % 5 === 0) compatibility += 18;
+    else if (Math.abs(numVal1 - numVal2) === 2 || Math.abs(numVal1 - numVal2) === 4) compatibility += 12;
+    else compatibility += 5;
+    
+    // vowel resonance (moon & venus harmony)
+    const vowelDiff = Math.abs(vowel1 - vowel2);
+    if (vowelDiff === 0) compatibility += 24;
+    else if (vowelDiff <= 2) compatibility += 16;
+    else if (vowelDiff <= 4) compatibility += 8;
+    else compatibility += 2;
+    
+    // karmic consonant sync (earth grounding)
+    const consDiff = Math.abs(cons1 - cons2);
+    if (consDiff === 0) compatibility += 20;
+    else if (consDiff <= 2) compatibility += 12;
+    else if (consDiff <= 4) compatibility += 6;
+    else compatibility += 1;
+    
+    return Math.min(compatibility, 70);
+  }
+
+  // 8. Name parity & mirror effect
+  function cosmicMirrorEffect(nameA, nameB) {
+    let reverseCompatibility = 0;
+    const revB = nameB.split('').reverse().join('');
+    for (let i = 0; i < Math.min(nameA.length, revB.length); i++) {
+      if (nameA[i] === revB[i]) reverseCompatibility += 5;
+    }
+    // first letter resonance (very important in astrology)
+    if (nameA[0] === nameB[0]) reverseCompatibility += 12;
+    else if (Math.abs(getLetterValue(nameA[0]) - getLetterValue(nameB[0])) === 1) reverseCompatibility += 6;
+    else reverseCompatibility += 2;
+    return Math.min(reverseCompatibility, 32);
+  }
+
+  // ---------- CALCULATE ALL METRICS ----------
+  const numVal1 = computeNameNumericalValue(clean1);
+  const numVal2 = computeNameNumericalValue(clean2);
+  const vowelSum1 = getVowelsSum(clean1);
+  const vowelSum2 = getVowelsSum(clean2);
+  const consSum1 = getConsonantSum(clean1);
+  const consSum2 = getConsonantSum(clean2);
+  const overlapScore = letterSetOverlap(clean1, clean2);
+  const lengthHarm = lengthHarmony(clean1.length, clean2.length);
+  const planetAff = planetaryAffinity(clean1, clean2);
+  const vedicComp = vedicSynergy(numVal1, numVal2, vowelSum1, vowelSum2, consSum1, consSum2);
+  const mirrorBonus = cosmicMirrorEffect(clean1, clean2);
+  
+  // additional hidden factor: total letter count parity and master number echoes
+  const totalLengthFactor = (clean1.length + clean2.length) % 7;
+  const mysticInfluence = (totalLengthFactor === 0 ? 14 : (totalLengthFactor === 3 ? 9 : (totalLengthFactor === 5 ? 7 : 4)));
+  
+  // Composite love percentage — weighted astrology algorithm (no randomness)
+  let rawPercentage = (
+    (numVal1 === numVal2 ? 12 : (Math.min(numVal1, numVal2) / Math.max(numVal1, numVal2)) * 9) +
+    (vowelSum1 === vowelSum2 ? 11 : (11 - Math.abs(vowelSum1 - vowelSum2) * 0.9)) +
+    (consSum1 === consSum2 ? 10 : (10 - Math.abs(consSum1 - consSum2) * 0.8)) +
+    overlapScore * 0.38 +
+    lengthHarm * 0.42 +
+    planetAff * 0.4 +
+    vedicComp * 0.7 +
+    mirrorBonus * 0.85 +
+    mysticInfluence
+  );
+  
+  // normalization & ensure range 0-100
+  rawPercentage = Math.min(99.5, Math.max(0.5, rawPercentage));
+  
+  // final adjustment:  apply golden ratio for astrological soul signature
+  // produce consistent, meaningful and unique result based on combined name energies
+  let finalPercent = Math.floor(rawPercentage * 1.02);
+  if (clean1 === clean2) finalPercent = Math.min(100, finalPercent + 15); // twin flame recognition
+  
+  // if both names start with same vowel group => strong Venus blessing
+  const vowelsStart = new Set(['a', 'e', 'i', 'o', 'u']);
+  if (vowelsStart.has(clean1[0]) && vowelsStart.has(clean2[0])) finalPercent += 6;
+  if (!vowelsStart.has(clean1[0]) && !vowelsStart.has(clean2[0])) finalPercent += 4;
+  
+  // numerology final calibration: name values combined divine alignment
+  const combinedRoot = (numVal1 + numVal2) % 9;
+  if (combinedRoot === 3 || combinedRoot === 6 || combinedRoot === 9) finalPercent += 5;
+  else if (combinedRoot === 1 || combinedRoot === 5) finalPercent += 3;
+  
+  // cap 100 and floor 0
+  finalPercent = Math.min(100, Math.max(2, Math.floor(finalPercent)));
+  
+  // additional uniqueness: if names contain special repeating pattern -> blessing of stars
+  if (clean1.slice(-2) === clean2.slice(0,2) && clean1.length > 2) finalPercent = Math.min(100, finalPercent + 7);
+  if (clean2.slice(-2) === clean1.slice(0,2)) finalPercent = Math.min(100, finalPercent + 7);
+  
+  // ensure not to cross boundaries
+  finalPercent = Math.min(100, finalPercent);
+  if (finalPercent === 100) finalPercent = 100;
+  if (finalPercent < 5 && (clean1.length + clean2.length > 12)) finalPercent = 9; // cosmic mercy
+  
+  // display final divination value
+  loveField.value = finalPercent + "%";
+  
+  // add a small shimmer effect for dramatic astrology moment
+  const resultCard = document.querySelector('.card');
+  resultCard.style.transform = "translate(-50%, -50%) scale(1.01)";
+  setTimeout(() => { resultCard.style.transform = "translate(-50%, -50%) scale(1)"; }, 200);
+  
+  // Optional: console friendly astro reading (not intrusive)
+  let astroMessage = "";
+  if (finalPercent >= 85) astroMessage = "✨ Cosmic Twin Flame! The stars celebrate your union. ✨";
+  else if (finalPercent >= 70) astroMessage = "🌹 Strong karmic resonance — Venus smiles upon you. 🌹";
+  else if (finalPercent >= 50) astroMessage = "🍃 Harmonious potential, nurture with trust and the stars will guide. 🍃";
+  else if (finalPercent >= 30) astroMessage = "🌀 Opposites attract? Work on communication; planetary aspects are complex. 🌀";
+  else astroMessage = "🌙 This connection needs sacred effort — but every love evolves under cosmic law. 🌙";
+  
+  // store extra wisdom in tooltip (without alert)
+  loveField.title = astroMessage;
+  // optional: show subtle feedback via brief tooltip-style (don't disturb UI)
+  const oldFooter = document.querySelector('.card-footer');
+  if (oldFooter && !document.getElementById('astroHint')) {
+    let hintSpan = document.createElement('small');
+    hintSpan.id = 'astroHint';
+    hintSpan.style.display = 'block';
+    hintSpan.style.fontSize = '0.7rem';
+    hintSpan.style.marginTop = '5px';
+    hintSpan.style.color = '#aa6f8c';
+    hintSpan.innerText = astroMessage.substring(0, 60) + (astroMessage.length>60?'…':'');
+    oldFooter.parentNode.insertBefore(hintSpan, oldFooter.nextSibling);
+    setTimeout(() => { if(hintSpan) hintSpan.remove(); }, 2800);
+  }
 }
 
-}
+// bonus: real-time reset on input? No needed, but keep clean
 </script>
-
 </body>
 </html>
